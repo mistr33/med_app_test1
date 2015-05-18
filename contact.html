@@ -1,0 +1,176 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+	<meta charset="utf-8"> 
+	<title>Medical Health App</title> 
+	<meta id="Viewport" name="viewport">     
+	<script src="plugins/jquery-1.10.2.min.js"></script>  	
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="plugins/main.js"></script>    
+    <script src="cordova.js"></script>
+    <script type="text/javascript" src="plugins/monaca.viewport.js"></script>
+	<script type="text/javascript">    
+    function update(scale) {
+        document.getElementById("useragent").textContent = navigator.userAgent;
+        document.getElementById("scale").textContent = scale || "none";
+    
+        if (monaca.viewport.isAndroid()) {
+            document.getElementById("device").textContent = "Android";
+        } else if (monaca.viewport.isPCBrowser()) {
+            document.getElementById("device").textContent = "PC";
+        }
+	}		
+		monaca.viewport({
+			width : 720,
+			onAdjustment : update
+		});												
+	</script>
+</head>  
+<body> 
+<div id="mha" data-role="page" data-title="Medical Health App">
+
+		<div style="width:100%; height:25px;"></div>
+    	<div class="top"> 
+        <script src="plugins/main.js"></script>      
+    	<a href="index.html" class="logo_small" data-transition="pop"></a>
+    	<div class="menu_sign">
+            <a href="#" class="deploy-navigation"></a>
+   			<a href="#" class="hide-navigation"></a>
+        </div>
+        <div style="clear:both;"></div>
+        </div>
+        <br />
+        
+    <div class="deployed-navigation"></div>
+
+	<div data-role="content" data-enhance="false">    	                
+    	<br />
+        
+       <div class="content_txt">
+        	<div class="txt">  
+            	
+                <div style="margin:30px 0 20px 30px;">
+                        <b>Address:</b><br />
+                        Company Name<br />
+                        City<br />
+                        Street<br />
+                        Zip Code
+                    </div>
+                    <a href="tel:+11-111-111-111" class="contact_phone">
+                    	<div class="contact_phone_txt"><span style="font-family:'Tex Gyre Adventor'; font-weight:bold;">Name Surname:</span></div>
+                    	<div class="contact_phone_txt2"> +11 111 111 111</div>
+                    </a>
+                    <a href="tel:+11-111-111-111" class="contact_phone">
+                    	<div class="contact_phone_txt"><span style="font-family:'Tex Gyre Adventor'; font-weight:bold;">Name Surname:</span></div>
+                    	<div class="contact_phone_txt2"> +11 111 111 111</div>
+                    </a>
+                    <div style="margin:20px 0 30px 30px;">
+                        company.mail@mail.com<br />
+                        www.your-company-web.com<br />
+                    </div>
+                
+            </div>
+        </div>
+        
+        <br /><br />
+        <div class="content_txt">
+        	<div class="txt">  
+            		
+                <iframe width="620" height="615" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/?ie=UTF8&amp;ll=49.75288,21.445313&amp;spn=25.248393,67.631836&amp;t=m&amp;z=5&amp;output=embed" ></iframe>
+                <div style="width:100%; height:20px;"></div> 
+              	<a href="#" onclick="navigator.app.loadUrl('http://goo.gl/maps/pMjt7', {openExternal : true});" target="_blank" class="pm"><img src="images/go_to.png" width="378" height="80"></a>
+                    
+            </div>
+        </div>
+        
+        <br /><br />
+        <div class="content_txt">
+        	<div class="txt">  
+            
+            <div class="contact_bg">	
+            <form id="mail_form">
+    		<input type="text" name="name" id="name" class="form_input" style="top:25px; left:20px; width:570px;" required >
+    		<input type="text" name="email" id="email" class="form_input" style="top:143px; left:20px; width:570px;" required >
+    		<input type="text" name="phone" id="phone" class="form_input" style="top:257px; left:20px; width:570px;">
+    		<textarea name="message" class="form_textarea" id="message" required ></textarea>
+    		<input type="submit" name="submit" value="" id="contact_btn">
+    		</form>
+            <div class="mail_alert">
+            <div class="loading_spinner"><img src="images/loading.gif" width="128" height="128"></div>
+            <script>
+            $('#mail_form').submit(function(event) {
+    
+                var name = $("#name").val()
+                var email = $("#email").val()
+				var phone = $("#phone").val()
+                var message = $("#message").val()
+								               
+                if(name && email && message){
+                    
+					if(phone){
+						
+						$.ajax({
+								type: "GET",
+								url: "http://www.your_domain.com/mha_server/mail.php?name="+ name +"&email="+ email +"&message="+ message +"&phone="+ phone +"",
+								jsonp: "callback",
+								dataType: "jsonp",
+								crossDomain: true,
+								beforeSend: function() { $( ".loading_spinner" ).show(); },
+								success: function(data) {
+									
+								$( ".loading_spinner" ).hide();
+							
+								if(data.mail.status=='ok'){ $('.mail_alert').slideDown("slow").show(100).html('<div style="color:#10752c;">Email has been sent</div>').delay(3000).slideUp("slow").hide(100); }
+								if(data.mail.status=='nam'){ $('.mail_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Invalid email address</div>').delay(3000).slideUp("slow").hide(100); }
+								if(data.mail.status=='no'){ $('.mail_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Error: Try again</div>').delay(3000).slideUp("slow").hide(100); }					
+																									
+								},
+								error: function(){
+									
+									$('#js_all').slideDown("slow").show(100).html('<div class="ce">Error: Connection problem...</div>').delay(10000).slideUp("slow").hide(100);
+								}
+							});
+							
+					} else {
+						
+						$.ajax({
+								type: "GET",
+								url: "http://www.your_domain.com/mha_server/mail.php?name="+ name +"&email="+ email +"&message="+ message +"",
+								jsonp: "callback",
+								dataType: "jsonp",
+								crossDomain: true,
+								beforeSend: function() { $( ".loading_spinner" ).show(); },
+								success: function(data) {
+									
+								$( ".loading_spinner" ).hide();
+							
+								if(data.mail.status=='ok'){ $('.mail_alert').slideDown("slow").show(100).html('<div style="color:#10752c;">Email has been sent</div>').delay(3000).slideUp("slow").hide(100); }
+								if(data.mail.status=='nam'){ $('.mail_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Invalid email address</div>').delay(3000).slideUp("slow").hide(100); }
+								if(data.mail.status=='no'){ $('.mail_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Error: Try again</div>').delay(3000).slideUp("slow").hide(100); }					
+																									
+								},
+								error: function(){
+									
+									$('#js_all').slideDown("slow").show(100).html('<div class="ce">Error: Connection problem...</div>').delay(10000).slideUp("slow").hide(100);
+								}
+							});
+						
+					}
+						
+                } else {
+                                    
+                    $('.mail_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Fill in all required fields</div>').delay(3000).slideUp("slow").hide(100);									
+                }
+                event.preventDefault();
+            })		
+            </script>
+            </div>
+                
+            </div>
+        </div>
+                  	
+	</div>
+ <br /> <br /><br />  
+</div>
+</body>
+</html>

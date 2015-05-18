@@ -1,0 +1,108 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+	<meta charset="utf-8"> 
+	<title>Medical Health App</title> 
+	<meta id="Viewport" name="viewport">      		 
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="plugins/jquery-1.10.2.min.js"></script>  
+    <script src="plugins/main.js"></script>
+    <script src="cordova.js"></script>
+    <script type="text/javascript" src="plugins/monaca.viewport.js"></script>
+	<script type="text/javascript">    
+    function update(scale) {
+        document.getElementById("useragent").textContent = navigator.userAgent;
+        document.getElementById("scale").textContent = scale || "none";
+    
+        if (monaca.viewport.isAndroid()) {
+            document.getElementById("device").textContent = "Android";
+        } else if (monaca.viewport.isPCBrowser()) {
+            document.getElementById("device").textContent = "PC";
+        }
+	}		
+		monaca.viewport({
+			width : 720,
+			onAdjustment : update
+		});
+		
+		var currentPage = window.location.href;
+		window.sessionStorage.setItem("page",currentPage);
+		
+		var ukey = window.localStorage.getItem("reservation_sid");
+		if(ukey && ukey!='null' && ukey!='false' && typeof(ukey) != 'undefined'){
+		
+			$.ajax({
+				type: "GET",
+				url: "http://192.168.1.233/mha_server/message.php?ukey="+ ukey +"",
+				jsonp: "callback",
+				dataType: "jsonp",
+				crossDomain: true,
+				success: function(data) {
+						
+				if(data.mr.status=='yes'){ $('#mha').append('<a href="message.html?msg='+ data.mr.id +'" class="menu_rico" data-transition="fade"></a>'); }																														
+				},
+				error: function(){
+					$(this).ajax;
+				}				
+			});	
+		}												
+	</script>
+    <script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
+	<script src="http://code.createjs.com/tweenjs-0.5.0.min.js"></script>
+    <script src="http://code.createjs.com/movieclip-0.7.0.min.js"></script>
+    <script src="http://code.createjs.com/preloadjs-0.4.0.min.js"></script>
+    <script src="plugins/animation.js"></script>    
+    <script>
+    var canvas, stage, exportRoot;
+    
+    function init() {
+        canvas = document.getElementById("canvas");
+        images = images||{};
+    
+        var loader = new createjs.LoadQueue(false);
+        loader.addEventListener("fileload", handleFileLoad);
+        loader.addEventListener("complete", handleComplete);
+        loader.loadManifest(lib.properties.manifest);
+    }
+    
+    function handleFileLoad(evt) {
+        if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+    }
+    
+    function handleComplete() {
+        exportRoot = new lib.sercejs();
+    
+        stage = new createjs.Stage(canvas);
+        stage.addChild(exportRoot);
+        stage.update();
+    
+        createjs.Ticker.setFPS(lib.properties.fps);
+        createjs.Ticker.addEventListener("tick", stage);
+    }
+    </script>
+</head> 
+<body onload="init();"> 
+<div id="mha" data-role="page" data-title="Medical Health App">
+
+	<div data-role="content" data-enhance="false">
+    	<canvas id="canvas" width="430" height="740" class="heart"></canvas>
+        <div class="logo_large"></div>
+        <div class="txt_main"></div>
+        <div style="clear:both;"></div>
+        <div class="main_menu_bg">
+        	<div style="margin-left:40px; padding-top:20px;"> 
+                <a href="reservation.html" id="m1" class="menu_ico" data-transition="flip"></a>
+                <a href="news.html" id="m2" class="menu_ico" data-transition="flip"></a>
+                <a href="about_us.html" id="m3" class="menu_ico" data-transition="flip"></a>
+                <a href="contact.html" id="m4" class="menu_ico" data-transition="flip"></a>
+            </div>
+        </div>
+        </div>
+        <div class="main_bottom">
+<a href="#" onclick="navigator.app.loadUrl('http://www.invedion.com', {openExternal : true});" target="_blank" style="float:left; margin-left:50px;"><img src="images/logo_invedion.png" width="149" height="40"></a>
+<a href="#" onclick="navigator.app.loadUrl('http://www.invedion.com', {openExternal : true});" target="_blank" style="float:right; margin-top:10px;"><img src="images/web.png" width="153" height="19"></a>       	
+	</div>
+
+</div>
+</body>
+</html>

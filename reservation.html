@@ -1,0 +1,188 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+	<meta charset="utf-8"> 
+	<title>Medical Health App</title> 
+	<meta id="Viewport" name="viewport">     
+	<script src="plugins/jquery-1.10.2.min.js"></script>  	
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="plugins/main.js"></script>    
+    <script src="cordova.js"></script>
+    <script type="text/javascript" src="plugins/monaca.viewport.js"></script>
+	<script type="text/javascript">    
+    function update(scale) {
+        document.getElementById("useragent").textContent = navigator.userAgent;
+        document.getElementById("scale").textContent = scale || "none";
+    
+        if (monaca.viewport.isAndroid()) {
+            document.getElementById("device").textContent = "Android";
+        } else if (monaca.viewport.isPCBrowser()) {
+            document.getElementById("device").textContent = "PC";
+        }
+	}		
+		monaca.viewport({
+			width : 720,
+			onAdjustment : update
+		});												
+	</script>
+</head>  
+<body> 
+<div id="mha" data-role="page" data-title="Medical Health App">
+
+		<div style="width:100%; height:25px;"></div>
+    	<div class="top"> 
+        <script src="plugins/main.js"></script>      
+    	<a href="index.html" class="logo_small" data-transition="pop"></a>
+    	<div class="menu_sign">
+            <a href="#" class="deploy-navigation"></a>
+   			<a href="#" class="hide-navigation"></a>
+        </div>
+        <div style="clear:both;"></div>
+        </div>
+        <br />
+        
+    <div class="deployed-navigation"></div>
+
+	<div data-role="content" data-enhance="false">    	                
+    	<br /><br />
+        <div id="js_all">       		                 
+        <div class="loading_spinner_all"><img src="images/loading.gif" width="128" height="128"></div>
+        <script type="text/javascript">						
+				
+				function getQueryVariable(variable)
+					{
+						   var query = window.location.search.substring(1);
+						   var vars = query.split("&");
+						   for (var i=0;i<vars.length;i++) {
+								   var pair = vars[i].split("=");
+								   if(pair[0] == variable){return pair[1];}
+						   }
+						   return(false);
+					}
+				
+				var mid = getQueryVariable("id");
+				var ukey = window.localStorage.getItem("reservation_sid");
+					
+				var previouspage = window.sessionStorage.getItem("page");
+				var currentPage = window.location.href;
+				window.sessionStorage.setItem("page",currentPage); 
+				$('.top_small').append('<a href="'+ previouspage +'" class="back_small" data-transition="pop"></a>');
+										
+				
+				if(mid=='add' && mid!='null' && mid!='false' && typeof(mid) != 'undefined'){
+					
+					$('#js_all').html('<div class="content_txt"><div class="reservation_bg"><form id="reservation_form"> <input type="text" name="name" id="name" class="rfi rf_input_1" required > <input type="text" name="surname" id="surname" class="rfi rf_input_2" required > <input type="text" name="phone" id="phone" class="rfi rf_input_3"><select name="date_d" id="date_d" class="rfi rf_input_5a" required><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="12">13</option><option value="12">14</option><option value="12">15</option><option value="12">16</option><option value="12">17</option><option value="12">18</option><option value="12">19</option><option value="12">20</option><option value="12">21</option><option value="12">22</option><option value="12">23</option><option value="12">24</option><option value="12">25</option><option value="12">26</option><option value="12">27</option><option value="12">28</option><option value="12">29</option><option value="12">30</option><option value="12">31</option> </select> <select name="date_m" id="date_m" class="rfi rf_input_5b" required><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option> </select> <select name="date_y" id="date_y" class="rfi rf_input_5c" required><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option> </select> <select name="time_h" id="time_h" class="rfi rf_input_6" required><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option> </select> <select name="time_m" id="time_m" class="rfi rf_input_7" required><option value="00">00</option><option value="05">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option> </select> <select name="zone" id="zone" class="rfi rf_input_8" required><option value="pm">PM</option><option value="am">AM</option> </select><textarea name="message" id="message" class="rfi rf_input_9" ></textarea><input type="submit" name="submit" value="" id="reservation_btn"></form><div class="reservation_alert"></div><a href="reservation.html" class="reservation_back"> <<< back </a></div><br /><br /><br /><br /><br /></div><br /><br /><br /><br /><br />');															
+				
+			$('#reservation_form').submit(function(event) {
+    
+				var name = $("#name").val()
+                var surname = $("#surname").val()
+				var phone = $("#phone").val()
+				var date_d = $("#date_d").val()
+				var date_m = $("#date_m").val()
+				var date_y = $("#date_y").val()
+				var time_h = $("#time_h").val()
+				var time_m = $("#time_m").val()
+				var zone = $("#zone").val()
+                var message = $("#message").val()
+								               
+                if(name && surname && date_d && date_m && date_y && time_h && time_m && zone){
+                    										
+						
+						$.ajax({
+								type: "GET",
+								url: "http://192.168.1.233/mha_server/make_reservation.php?name="+ name +"&surname="+ surname +"&phone="+ phone +"&date_d="+ date_d +"&date_m="+ date_m +"&date_y="+ date_y +"&time_h="+ time_h +"&time_m="+ time_m +"&zone="+ zone +"&message="+ message +"&skey="+ ukey +"",
+								jsonp: "callback",
+								dataType: "jsonp",
+								crossDomain: true,
+								beforeSend: function() { $( ".loading_spinner" ).show(); },
+								success: function(data) {
+									
+								$( ".loading_spinner" ).hide();
+							
+								if(data.reservation.status=='ok'){ 
+									
+									var rsid = data.reservation.sid;
+										
+									window.localStorage.setItem("reservation_sid",rsid); 
+									$('.reservation_alert').slideDown("slow").show(100).html('<div style="color:#10752c;">Your reservation has been made.</div>').delay(3000).slideUp("slow").hide(100); 
+								}
+								
+			if(data.reservation.status=='rae'){ $('.reservation_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Reservation already exists.</div>').delay(3000).slideUp("slow").hide(100); }
+			if(data.reservation.status=='fno'){ $('.reservation_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Fill in all fields.</div>').delay(3000).slideUp("slow").hide(100); }
+			if(data.reservation.status=='no'){ $('.reservation_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Error: Try again</div>').delay(3000).slideUp("slow").hide(100); }					
+																									
+								},
+								error: function(){
+									
+									$('#js_all').slideDown("slow").show(100).html('<div class="ce">Error: Connection problem...</div>').delay(10000).slideUp("slow").hide(100);
+								}
+							});
+
+						
+                } else {
+                                    
+                    $('.reservation_alert').slideDown("slow").show(100).html('<div style="color:#b20701;">Fill in all required fields</div>').delay(3000).slideUp("slow").hide(100);									
+                }
+                event.preventDefault();
+            	})		
+   
+				
+				} else {
+															
+					var del = getQueryVariable("del");
+					var sid = getQueryVariable("sid");
+
+					if(del && sid){
+						
+						$.ajax({
+						type: "GET",
+						url: "http://192.168.1.233/mha_server/reservation.php?skey="+ ukey +"&del="+ del +"&sid="+ sid +"",
+						jsonp: "callback",
+						dataType: "html",
+						crossDomain: true,
+						beforeSend: function() { $( ".loading_spinner_all" ).show(); },
+						success: function(data) {
+							
+						$( ".loading_spinner_all" ).hide();
+					
+						$('#js_all').html(data);						
+																							
+						},
+						error: function(){
+							
+							$('#js_all').slideDown("slow").show(100).html('<div class="ce">Error: Connection problem...</div>').delay(10000).slideUp("slow").hide(100);
+						}
+						});	
+						
+					} else {
+
+						$.ajax({
+						type: "GET",
+						url: "http://192.168.1.233/mha_server/reservation.php?skey="+ ukey +"",
+						jsonp: "callback",
+						dataType: "html",
+						crossDomain: true,
+						beforeSend: function() { $( ".loading_spinner_all" ).show(); },
+						success: function(data) {
+							
+						$( ".loading_spinner_all" ).hide();
+					
+						$('#js_all').html(data);
+																							
+						},
+						error: function(){
+							
+							$('#js_all').slideDown("slow").show(100).html('<div class="ce">Error: Connection problem...</div>').delay(10000).slideUp("slow").hide(100);
+						}
+						});
+					
+					}						
+				}			
+		</script>        
+        </div>       
+                  	
+	</div>
+</div>
+</body>
+</html>
